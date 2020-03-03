@@ -15,10 +15,13 @@ $ python main.py --url <incoming url> # possibly requires call of python3 execut
 If the script is called with no parameters, a user can input the link from the console
 
 # Output Example
+To create a short link:
 
-    8_orders_2017_02_08_150102_1.xml   1203
-    8_orders_2017_02_08_150502_1.xml   1310
-    8_orders_2017_02_08_154301_1.xml   1772
+('Битлинк', 'bit.ly/3ci09sP')
+
+To count clicks:
+
+('Total clicks', 7)
 
 # Project Goals
 
