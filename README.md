@@ -1,9 +1,12 @@
-# devman_api
+# Bitly url shorterer
 This script makes a short link from a given URL, or gives a number of clicks on a shorten link.
 
 # Quickstart
 
-The script requires Python 3.7 or later version installed
+The script requires Python 3.7 or later version installed. Then use pip (or pip3, if there is a conflict with Python2) to install dependencies:
+```
+pip install -r requirements.txt
+```
 
 Example of script launch on Linux, Python 3.7:
 
