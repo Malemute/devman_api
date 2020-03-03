@@ -1,4 +1,7 @@
 import requests
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def shorten_link(token, long_url):
   authoriz_template = "Bearer {}"
@@ -14,7 +17,7 @@ def shorten_link(token, long_url):
   bitlink_json = response.json()
   return bitlink_json['link']
 
-token = "c65b488a8ca81706b68d41030fd118461b056012"
+token = os.getenv("BITLINK_TOKEN")
 long_link = "https://www.marinetraffic.com/en/ais/home/centerx:89.6/centery:-40.9/zoom:5"
 
 print('Битлинк', shorten_link(token, long_link))
