@@ -1,6 +1,9 @@
 import requests
 import os
 import argparse
+from dotenv import load_dotenv
+
+load_dotenv()
 
 def make_auth_header(token):
   authoriz_template = "Bearer {}"
