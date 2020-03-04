@@ -20,12 +20,13 @@ If the script is called with no parameters, a user can input the link from the c
 # Output Example
 To create a short link:
 
-('Битлинк', 'bit.ly/3ci09sP')
-
+```
+Битлинк = bit.ly/3ci09sP
+```
 To count clicks:
-
-('Total clicks', 7)
-
+```
+Total clicks = 7
+```
 # Project Goals
 
 The code is written for educational purposes. Training course: API to web services - [DVMN.org](https://dvmn.org)
