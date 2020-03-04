@@ -44,7 +44,7 @@ def count_clicks(token, bitlink):
 def process_bitlink(incoming_link, token):
 
   if (incoming_link == None) or (incoming_link == ""):
-    incoming_link = "https://www.marinetraffic.com/en/ais/home/centerx:89.6/centery:-40.9/zoom:5"
+    incoming_link = "https://www.marinetraffic.com/en/ais/home/centerx:101.5/centery:-39.0/zoom:5"
 
   if incoming_link.lower().startswith('bit.ly'):
     try:
