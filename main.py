@@ -3,8 +3,6 @@ import os
 import argparse
 from dotenv import load_dotenv
 
-load_dotenv()
-
 def make_auth_header(token):
   authoriz_template = "Bearer {}"
   request_header = {"Authorization":
@@ -63,6 +61,8 @@ def process_bitlink(incoming_link, token):
 
 
 if __name__ == '__main__':
+
+  load_dotenv()
 
   parser = argparse.ArgumentParser(description='Работа с короткими ссылками')
   parser.add_argument('--url', help='Исходная ссылка')
