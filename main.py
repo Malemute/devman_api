@@ -47,15 +47,15 @@ def process_bitlink(incoming_link, token):
   if incoming_link.lower().startswith('bit.ly'):
     try:
       total_clicks = count_clicks(token, incoming_link)
-      printing_info = 'Total clicks', total_clicks
+      printing_info = 'Total clicks'.format(total_clicks)
     except requests.exceptions.HTTPError as err:
-      printing_info = 'Wrong link or so: ', err
+      printing_info = 'Wrong link or so: {}'.format(err)
   else:
     try:
       bitlink = shorten_link(token, incoming_link)
-      printing_info = 'Битлинк', bitlink
+      printing_info = 'Битлинк'.format(bitlink)
     except requests.exceptions.HTTPError as err:
-      printing_info = 'Wrong link or so: ', err
+      printing_info = 'Wrong link or so: '.format(err)
 
   return printing_info
 
