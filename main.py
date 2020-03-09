@@ -65,7 +65,7 @@ if __name__ == '__main__':
 
   parser = argparse.ArgumentParser(description='Работа с короткими ссылками')
   parser.add_argument('--url',
-         default = "https://www.marinetraffic.com/en/ais/home/centerx:103.0/centery:-37.2/zoom:6",
+         default = "https://www.iridium360.ru/guest/journey/4fac9ba1",
          help='Исходная ссылка')
   args = parser.parse_args()
   incoming_link = args.url
