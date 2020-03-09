@@ -23,7 +23,7 @@ def shorten_link(token, long_url):
       json = long_link_params)
     response.raise_for_status()
     bitlink_structure = response.json()
-    return 'Битлинк'.format(bitlink_structure['id'])
+    return 'Битлинк = {}'.format(bitlink_structure['id'])
   
   except requests.exceptions.HTTPError as err:
     return 'Wrong link or so: {}'.format(err)
@@ -43,7 +43,7 @@ def count_clicks(token, bitlink):
       params = request_params)
     response.raise_for_status()
     bitlink_structure = response.json()
-    return 'Total clicks'.format(bitlink_structure['total_clicks'])
+    return 'Total clicks = {}'.format(bitlink_structure['total_clicks'])
     
   except requests.exceptions.HTTPError as err:
     return 'Wrong link or so: {}'.format(err)
