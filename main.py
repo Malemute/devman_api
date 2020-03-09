@@ -42,8 +42,8 @@ def count_clicks(token, bitlink):
       headers = request_headers,
       params = request_params)
     response.raise_for_status()
-      bitlink_structure = response.json()
-      return 'Total clicks'.format(bitlink_structure['total_clicks'])
+    bitlink_structure = response.json()
+    return 'Total clicks'.format(bitlink_structure['total_clicks'])
     
   except requests.exceptions.HTTPError as err:
     return 'Wrong link or so: {}'.format(err)
