@@ -17,12 +17,17 @@ def shorten_link(token, long_url):
   "long_url": long_url
   }
   request_url = 'https://api-ssl.bitly.com/v4/bitlinks'
-  response = requests.post(request_url, headers = request_headers,
-    json = long_link_params)
-  response.raise_for_status()
-  bitlink_structure = response.json()
+  
+  try:
+    response = requests.post(request_url, headers = request_headers,
+      json = long_link_params)
+    response.raise_for_status()
+    bitlink_structure = response.json()
+    return 'Битлинк'.format(bitlink_structure['id'])
+  
+  except requests.exceptions.HTTPError as err:
+    return 'Wrong link or so: {}'.format(err)
 
-  return bitlink_structure['id']
 
 def count_clicks(token, bitlink):
 
@@ -31,31 +36,25 @@ def count_clicks(token, bitlink):
   "units": -1
   }
   request_url = 'https://api-ssl.bitly.com/v4/bitlinks/{bitlink}/clicks/summary'
-  response = requests.get(request_url.format(bitlink=bitlink),
-    headers = request_headers,
-    params = request_params)
-  response.raise_for_status()
-  bitlink_structure = response.json()
 
-  return bitlink_structure['total_clicks']
+  try:
+    response = requests.get(request_url.format(bitlink=bitlink),
+      headers = request_headers,
+      params = request_params)
+    response.raise_for_status()
+      bitlink_structure = response.json()
+      return 'Total clicks'.format(bitlink_structure['total_clicks'])
+    
+  except requests.exceptions.HTTPError as err:
+    return 'Wrong link or so: {}'.format(err)
+    
 
 def process_bitlink(incoming_link, token):
 
-  if (incoming_link == None) or (incoming_link == ""):
-    incoming_link = "https://www.marinetraffic.com/en/ais/home/centerx:101.5/centery:-39.0/zoom:5"
-
   if incoming_link.lower().startswith('bit.ly'):
-    try:
-      total_clicks = count_clicks(token, incoming_link)
-      printing_info = 'Total clicks'.format(total_clicks)
-    except requests.exceptions.HTTPError as err:
-      printing_info = 'Wrong link or so: {}'.format(err)
+    printing_info = count_clicks(token, incoming_link)
   else:
-    try:
-      bitlink = shorten_link(token, incoming_link)
-      printing_info = 'Битлинк'.format(bitlink)
-    except requests.exceptions.HTTPError as err:
-      printing_info = 'Wrong link or so: '.format(err)
+    printing_info = shorten_link(token, incoming_link)
 
   return printing_info
 
@@ -65,12 +64,11 @@ if __name__ == '__main__':
   load_dotenv()
 
   parser = argparse.ArgumentParser(description='Работа с короткими ссылками')
-  parser.add_argument('--url', help='Исходная ссылка')
+  parser.add_argument('--url',
+         default = "https://www.marinetraffic.com/en/ais/home/centerx:103/centery:-37.2/zoom:6",
+         help='Исходная ссылка')
   args = parser.parse_args()
   incoming_link = args.url
-
-  if incoming_link == None:
-    incoming_link = input("Your link: ")
 
   token = os.getenv("BITLINK_TOKEN")
 
