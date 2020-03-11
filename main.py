@@ -3,7 +3,7 @@ import os
 import argparse
 from dotenv import load_dotenv
 
-class BitLink(Exception):
+class BitLinkError(Exception):
     """User Defined Exception for Short Link Service BitLink"""
 
     def __init__(self, text):
@@ -67,12 +67,16 @@ if __name__ == '__main__':
         printing_info = 'Total clicks = {}'.format(clicks)
       except requests.exceptions.HTTPError as err:
         printing_info = 'Wrong link or so: {}'.format(err)
+      except BitLinkError as blerr:
+        printing_info = 'Something went bad with click count: '.format(blerr)
     else:
       try:
         bitlink = shorten_link(token, incoming_link)
         printing_info = 'Битлинк = {}'.format(bitlink)
       except requests.exceptions.HTTPError as err:
         printing_info = 'Wrong link or so: {}'.format(err)
+      except BitLinkError as blerr:
+        printing_info = 'Something went bad with shorten link: '.format(blerr)
 
     print(printing_info)
 
