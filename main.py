@@ -17,16 +17,13 @@ def shorten_link(token, long_url):
   "long_url": long_url
   }
   request_url = 'https://api-ssl.bitly.com/v4/bitlinks'
-  
-  try:
-    response = requests.post(request_url, headers = request_headers,
-      json = long_link_params)
+
+  response = requests.post(request_url, headers = request_headers,
+    json = long_link_params)
     response.raise_for_status()
     bitlink_structure = response.json()
-    return 'Битлинк = {}'.format(bitlink_structure['id'])
-  
-  except requests.exceptions.HTTPError as err:
-    return 'Wrong link or so: {}'.format(err)
+    return bitlink_structure['id']
+
 
 
 def count_clicks(token, bitlink):
@@ -37,26 +34,13 @@ def count_clicks(token, bitlink):
   }
   request_url = 'https://api-ssl.bitly.com/v4/bitlinks/{bitlink}/clicks/summary'
 
-  try:
-    response = requests.get(request_url.format(bitlink=bitlink),
-      headers = request_headers,
-      params = request_params)
-    response.raise_for_status()
-    bitlink_structure = response.json()
-    return 'Total clicks = {}'.format(bitlink_structure['total_clicks'])
-    
-  except requests.exceptions.HTTPError as err:
-    return 'Wrong link or so: {}'.format(err)
-    
+  response = requests.get(request_url.format(bitlink=bitlink),
+    headers = request_headers,
+    params = request_params)
+  response.raise_for_status()
+  bitlink_structure = response.json()
+  return bitlink_structure['total_clicks']
 
-def process_bitlink(incoming_link, token):
-
-  if incoming_link.lower().startswith('bit.ly'):
-    printing_info = count_clicks(token, incoming_link)
-  else:
-    printing_info = shorten_link(token, incoming_link)
-
-  return printing_info
 
 
 if __name__ == '__main__':
@@ -72,4 +56,17 @@ if __name__ == '__main__':
 
   token = os.getenv("BITLINK_TOKEN")
 
-  print(process_bitlink(incoming_link, token))
+  if incoming_link.lower().startswith('bit.ly'):
+    try:
+      clicks = count_clicks(token, incoming_link)
+      printing_info = 'Total clicks = {}'.format(clicks)
+    except requests.exceptions.HTTPError as err:
+      printing_info = 'Wrong link or so: {}'.format(err)
+  else:
+    try:
+      bitlink = shorten_link(token, incoming_link)
+      printing_info = 'Битлинк = {}'.format(bitlink)
+    except requests.exceptions.HTTPError as err:
+      printing_info = 'Wrong link or so: {}'.format(err)
+
+  print(printing_info)
